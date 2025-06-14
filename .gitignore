@@ -1,0 +1,13 @@
+# Ambientes virtuais
+venv/
+.env/
+# Cache e arquivos temporários
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+# Arquivos do Streamlit
+.streamlit/
+# Dados de upload temporários
+*.tmp
+*.log
