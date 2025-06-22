@@ -52,20 +52,15 @@ if uploaded_file is not None:
         st.image(image, caption="Imagem Original", use_container_width=True, channels="GRAY")
         success, buffer = cv2.imencode('.png', image)
         if success:
-            st.download_button(label='Salvar imagem', data=buffer.tobytes(), file_name='imagem_original.png', mime='image/png')
+            st.markdown("<div style='text-align:center'>", unsafe_allow_html=True)
+            st.download_button(label='⬇️', data=buffer.tobytes(), file_name='imagem_original.png', mime='image/png', key='download_original', help='Baixar imagem')
+            st.markdown("</div>", unsafe_allow_html=True)
     with col_img2:
         if st.button("Calcular Histograma da Imagem Original"):
             fig, ax = plt.subplots()
             ax.hist(img.ravel(), bins=256, range=[0,256])
             ax.set_title("Histograma da Imagem Original")
             st.pyplot(fig)
-
-    
-    
-    
-    
-    
-    
 
     st.header("Transformações de Intensidade")
     # Normalização (Alargamento de Contraste)
@@ -76,9 +71,9 @@ if uploaded_file is not None:
             st.image(stretch, caption="Contraste Alargado", use_container_width=True, channels="GRAY")
             success, buffer = cv2.imencode('.png', stretch)
             if success:
-                import base64
-                b64 = base64.b64encode(buffer.tobytes()).decode()
-                st.download_button(label='Salvar imagem', data=buffer.tobytes(), file_name='alargamento_contraste.png', mime='image/png')
+                st.markdown("<div style='text-align:center'>", unsafe_allow_html=True)
+                st.download_button(label='⬇️', data=buffer.tobytes(), file_name='alargamento_contraste.png', mime='image/png', key='download_contraste', help='Baixar imagem')
+                st.markdown("</div>", unsafe_allow_html=True)
         with col_norm2:
             fig2, ax2 = plt.subplots()
             ax2.hist(stretch.ravel(), bins=256, range=[0,256])
@@ -93,9 +88,9 @@ if uploaded_file is not None:
             st.image(eq, caption="Equalização de Histograma", use_container_width=True, channels="GRAY")
             success, buffer = cv2.imencode('.png', eq)
             if success:
-                import base64
-                b64 = base64.b64encode(buffer.tobytes()).decode()
-                st.download_button(label='Salvar imagem', data=buffer.tobytes(), file_name='equalizacao_histograma.png', mime='image/png')
+                st.markdown("<div style='text-align:center'>", unsafe_allow_html=True)
+                st.download_button(label='⬇️', data=buffer.tobytes(), file_name='equalizacao_histograma.png', mime='image/png', key='download_equalizacao', help='Baixar imagem')
+                st.markdown("</div>", unsafe_allow_html=True)
         with col_eq2:
             fig3, ax3 = plt.subplots()
             ax3.hist(eq.ravel(), bins=256, range=[0,256])
@@ -122,9 +117,9 @@ if uploaded_file is not None:
                 st.image(media, caption="Filtro Média", use_container_width=True, channels="GRAY")
                 success, buffer = cv2.imencode('.png', media)
                 if success:
-                    import base64
-                    b64 = base64.b64encode(buffer.tobytes()).decode()
-                    st.download_button(label='Salvar imagem', data=buffer.tobytes(), file_name='filtro_media.png', mime='image/png')
+                    st.markdown("<div style='text-align:center'>", unsafe_allow_html=True)
+                    st.download_button(label='⬇️', data=buffer.tobytes(), file_name='filtro_media.png', mime='image/png', key='download_media', help='Baixar imagem')
+                    st.markdown("</div>", unsafe_allow_html=True)
             with col_media2:
                 fig_media, ax_media = plt.subplots()
                 ax_media.hist(media.ravel(), bins=256, range=[0,256])
@@ -138,9 +133,9 @@ if uploaded_file is not None:
             st.image(mediana, caption="Filtro Mediana", use_container_width=True, channels="GRAY")
             success, buffer = cv2.imencode('.png', mediana)
             if success:
-                import base64
-                b64 = base64.b64encode(buffer.tobytes()).decode()
-                st.download_button(label='Salvar imagem', data=buffer.tobytes(), file_name='filtro_mediana.png', mime='image/png')
+                st.markdown("<div style='text-align:center'>", unsafe_allow_html=True)
+                st.download_button(label='⬇️', data=buffer.tobytes(), file_name='filtro_mediana.png', mime='image/png', key='download_mediana', help='Baixar imagem')
+                st.markdown("</div>", unsafe_allow_html=True)
         with col_med2:
             fig_mediana, ax_mediana = plt.subplots()
             ax_mediana.hist(mediana.ravel(), bins=256, range=[0,256])
@@ -154,9 +149,9 @@ if uploaded_file is not None:
             st.image(gauss, caption="Filtro Gaussiano", use_container_width=True, channels="GRAY")
             success, buffer = cv2.imencode('.png', gauss)
             if success:
-                import base64
-                b64 = base64.b64encode(buffer.tobytes()).decode()
-                st.download_button(label='Salvar imagem', data=buffer.tobytes(), file_name='filtro_gaussiano.png', mime='image/png')
+                st.markdown("<div style='text-align:center'>", unsafe_allow_html=True)
+                st.download_button(label='⬇️', data=buffer.tobytes(), file_name='filtro_gaussiano.png', mime='image/png', key='download_gaussiano', help='Baixar imagem')
+                st.markdown("</div>", unsafe_allow_html=True)
         with col_g2:
             fig_gauss, ax_gauss = plt.subplots()
             ax_gauss.hist(gauss.ravel(), bins=256, range=[0,256])
@@ -170,9 +165,9 @@ if uploaded_file is not None:
             st.image(maxf, caption="Filtro Máximo (Max Filter)", use_container_width=True, channels="GRAY")
             success, buffer = cv2.imencode('.png', maxf)
             if success:
-                import base64
-                b64 = base64.b64encode(buffer.tobytes()).decode()
-                st.download_button(label='Salvar imagem', data=buffer.tobytes(), file_name='filtro_maximo.png', mime='image/png')
+                st.markdown("<div style='text-align:center'>", unsafe_allow_html=True)
+                st.download_button(label='⬇️', data=buffer.tobytes(), file_name='filtro_maximo.png', mime='image/png', key='download_maximo', help='Baixar imagem')
+                st.markdown("</div>", unsafe_allow_html=True)
         with col_max2:
             fig_max, ax_max = plt.subplots()
             ax_max.hist(maxf.ravel(), bins=256, range=[0,256])
@@ -186,9 +181,9 @@ if uploaded_file is not None:
             st.image(minf, caption="Filtro Mínimo (Min Filter)", use_container_width=True, channels="GRAY")
             success, buffer = cv2.imencode('.png', minf)
             if success:
-                import base64
-                b64 = base64.b64encode(buffer.tobytes()).decode()
-                st.download_button(label='Salvar imagem', data=buffer.tobytes(), file_name='filtro_minimo.png', mime='image/png')
+                st.markdown("<div style='text-align:center'>", unsafe_allow_html=True)
+                st.download_button(label='⬇️', data=buffer.tobytes(), file_name='filtro_minimo.png', mime='image/png', key='download_minimo', help='Baixar imagem')
+                st.markdown("</div>", unsafe_allow_html=True)
         with col_min2:
             fig_min, ax_min = plt.subplots()
             ax_min.hist(minf.ravel(), bins=256, range=[0,256])
@@ -203,9 +198,9 @@ if uploaded_file is not None:
             st.image(lap, caption="Filtro Laplaciano", use_container_width=True, channels="GRAY")
             success, buffer = cv2.imencode('.png', lap)
             if success:
-                import base64
-                b64 = base64.b64encode(buffer.tobytes()).decode()
-                st.download_button(label='Salvar imagem', data=buffer.tobytes(), file_name='filtro_laplaciano.png', mime='image/png')
+                st.markdown("<div style='text-align:center'>", unsafe_allow_html=True)
+                st.download_button(label='⬇️', data=buffer.tobytes(), file_name='filtro_laplaciano.png', mime='image/png', key='download_laplaciano', help='Baixar imagem')
+                st.markdown("</div>", unsafe_allow_html=True)
         with col_lap2:
             fig_lap, ax_lap = plt.subplots()
             ax_lap.hist(lap.ravel(), bins=256, range=[0,256])
@@ -219,9 +214,9 @@ if uploaded_file is not None:
             st.image(rob, caption="Filtro Roberts", use_container_width=True, channels="GRAY")
             success, buffer = cv2.imencode('.png', rob)
             if success:
-                import base64
-                b64 = base64.b64encode(buffer.tobytes()).decode()
-                st.download_button(label='Salvar imagem', data=buffer.tobytes(), file_name='filtro_roberts.png', mime='image/png')
+                st.markdown("<div style='text-align:center'>", unsafe_allow_html=True)
+                st.download_button(label='⬇️', data=buffer.tobytes(), file_name='filtro_roberts.png', mime='image/png', key='download_roberts', help='Baixar imagem')
+                st.markdown("</div>", unsafe_allow_html=True)
         with col_rob2:
             fig_rob, ax_rob = plt.subplots()
             ax_rob.hist(rob.ravel(), bins=256, range=[0,256])
@@ -235,9 +230,9 @@ if uploaded_file is not None:
             st.image(prew, caption="Filtro Prewitt", use_container_width=True, channels="GRAY")
             success, buffer = cv2.imencode('.png', prew)
             if success:
-                import base64
-                b64 = base64.b64encode(buffer.tobytes()).decode()
-                st.download_button(label='Salvar imagem', data=buffer.tobytes(), file_name='filtro_prewitt.png', mime='image/png')
+                st.markdown("<div style='text-align:center'>", unsafe_allow_html=True)
+                st.download_button(label='⬇️', data=buffer.tobytes(), file_name='filtro_prewitt.png', mime='image/png', key='download_prewitt', help='Baixar imagem')
+                st.markdown("</div>", unsafe_allow_html=True)
         with col_prew2:
             fig_prew, ax_prew = plt.subplots()
             ax_prew.hist(prew.ravel(), bins=256, range=[0,256])
@@ -251,9 +246,9 @@ if uploaded_file is not None:
             st.image(sobel, caption="Filtro Sobel", use_container_width=True, channels="GRAY")
             success, buffer = cv2.imencode('.png', sobel)
             if success:
-                import base64
-                b64 = base64.b64encode(buffer.tobytes()).decode()
-                st.download_button(label='Salvar imagem', data=buffer.tobytes(), file_name='filtro_sobel.png', mime='image/png')
+                st.markdown("<div style='text-align:center'>", unsafe_allow_html=True)
+                st.download_button(label='⬇️', data=buffer.tobytes(), file_name='filtro_sobel.png', mime='image/png', key='download_sobel', help='Baixar imagem')
+                st.markdown("</div>", unsafe_allow_html=True)
         with col_sob2:
             fig_sobel, ax_sobel = plt.subplots()
             ax_sobel.hist(sobel.ravel(), bins=256, range=[0,256])
@@ -307,6 +302,19 @@ if uploaded_file is not None:
     with colD:
         st.image(img_passaalta, caption=f"Passa-alta (Freq, r={radius})", use_container_width=True, channels="GRAY")
 
+    # Montagem horizontal para download
+    imgs_concat = [img_original, img_media, img_passabaixa, img_passaalta]
+    # Garante que todas têm 2D e mesmo shape (redimensiona para menor comum se necessário)
+    min_height = min(im.shape[0] for im in imgs_concat)
+    min_width = min(im.shape[1] for im in imgs_concat)
+    imgs_resized = [cv2.resize(im, (min_width, min_height)) for im in imgs_concat]
+    img_montagem = np.concatenate(imgs_resized, axis=1)
+    success, buffer = cv2.imencode('.png', img_montagem)
+    if success:
+        st.markdown("<div style='text-align:center'>", unsafe_allow_html=True)
+        st.download_button(label='⬇️', data=buffer.tobytes(), file_name='convolucao_frequencia.png', mime='image/png', key='download_convolucao_frequencia', help='Baixar montagem das 4 imagens')
+        st.markdown("</div>", unsafe_allow_html=True)
+
     st.header("Segmentação")
     if st.button("Otsu Threshold"):
         otsu = filtros.apply_otsu_threshold(img)
@@ -315,7 +323,9 @@ if uploaded_file is not None:
             st.image(otsu, caption="Segmentação Otsu", use_container_width=True, channels="GRAY")
             success, buffer = cv2.imencode('.png', otsu)
             if success:
-                st.download_button(label='Salvar imagem', data=buffer.tobytes(), file_name='otsu.png', mime='image/png')
+                st.markdown("<div style='text-align:center'>", unsafe_allow_html=True)
+                st.download_button(label='⬇️', data=buffer.tobytes(), file_name='otsu.png', mime='image/png', key='download_otsu', help='Baixar imagem')
+                st.markdown("</div>", unsafe_allow_html=True)
         with col_otsu2:
             fig_otsu, ax_otsu = plt.subplots()
             ax_otsu.hist(otsu.ravel(), bins=256, range=[0,256])
@@ -341,7 +351,9 @@ if uploaded_file is not None:
             st.image(erode, caption=f"Erosão (kernel={ksize_morf}, iterações={iterations})", use_container_width=True, channels="GRAY")
             success, buffer = cv2.imencode('.png', erode)
             if success:
-                st.download_button(label='Salvar imagem', data=buffer.tobytes(), file_name='erosao.png', mime='image/png')
+                st.markdown("<div style='text-align:center'>", unsafe_allow_html=True)
+                st.download_button(label='⬇️', data=buffer.tobytes(), file_name='erosao.png', mime='image/png', key='download_erosao', help='Baixar imagem')
+                st.markdown("</div>", unsafe_allow_html=True)
         with col_erode2:
             fig_erode, ax_erode = plt.subplots()
             ax_erode.hist(erode.ravel(), bins=256, range=[0,256])
@@ -354,7 +366,9 @@ if uploaded_file is not None:
             st.image(dilate, caption=f"Dilatação (kernel={ksize_morf}, iterações={iterations})", use_container_width=True, channels="GRAY")
             success, buffer = cv2.imencode('.png', dilate)
             if success:
-                st.download_button(label='Salvar imagem', data=buffer.tobytes(), file_name='dilatacao.png', mime='image/png')
+                st.markdown("<div style='text-align:center'>", unsafe_allow_html=True)
+                st.download_button(label='⬇️', data=buffer.tobytes(), file_name='dilatacao.png', mime='image/png', key='download_dilatacao', help='Baixar imagem')
+                st.markdown("</div>", unsafe_allow_html=True)
         with col_dilate2:
             fig_dilate, ax_dilate = plt.subplots()
             ax_dilate.hist(dilate.ravel(), bins=256, range=[0,256])
