@@ -7,7 +7,7 @@ import os
 from descritores import color_descriptor, texture_descriptor, shape_descriptor
 
 
-st.title("Processamento de Imagens com OpenCV e Matplotlib")
+st.title("Processamento de Imagens Digitais")
 
 st.markdown('''
     <style>
