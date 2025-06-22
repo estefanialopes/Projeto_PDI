@@ -15,8 +15,8 @@ Este projeto é um aplicativo web para processamento de imagens em Python, utili
 
 1. **Clone este repositório:**
 ```bash
-git clone https://github.com/SEU_USUARIO/NOME_DO_REPOSITORIO.git
-cd NOME_DO_REPOSITORIO
+git clone https://github.com/estefanialopes/Projeto_PDI.git
+cd Projeto_PDI
 ```
 
 2. **Crie um ambiente virtual (opcional, mas recomendado):**
