@@ -37,7 +37,7 @@ pip install -r requirements.txt
 
 Execute o aplicativo Streamlit:
 ```bash
-streamlit run app.py
+python -m streamlit run app.py
 ```
 
 Acesse o endereço mostrado no terminal (geralmente http://localhost:8501).
