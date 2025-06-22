@@ -50,10 +50,4 @@ Acesse o endereço mostrado no terminal (geralmente http://localhost:8501).
 ## Requisitos
 - Python 3.8+
 
-## Observações
-- O app foi testado no Windows, mas deve funcionar em outros sistemas operacionais com Python instalado.
-- Para dúvidas ou sugestões, abra uma issue no repositório.
 
----
-
-**Documentação detalhada está nos comentários do código-fonte.**
