@@ -260,10 +260,12 @@ if uploaded_file is not None:
             ax_sobel.set_title("Histograma Sobel")
             st.pyplot(fig_sobel)
 
-    st.header("Domínio da Frequência")
-
-    st.subheader("Espectro de Fourier")
-    if st.button("Espectro de Fourier"):
+    # =====================
+    # Espectro de Fourier
+    # =====================
+    st.header("Espectro de Fourier")
+    st.markdown("Visualize o conteúdo em frequência da imagem através do espectro de magnitude da Transformada de Fourier.")
+    if st.button("Mostrar Espectro de Fourier"):
         spectrum = filtros.apply_fourier_spectrum(img)
         fig, ax = plt.subplots()
         ax.imshow(spectrum, cmap='gray')
@@ -271,31 +273,39 @@ if uploaded_file is not None:
         ax.axis('off')
         st.pyplot(fig)
 
-    st.markdown("<b>Filtro na Frequência</b>", unsafe_allow_html=True)
-    col1, col2 = st.columns(2)
-    with col1:
-        filtro_tipo_pt = st.selectbox("Tipo de Filtro na Frequência", ["Passa-baixa", "Passa-alta"])
-    with col2:
-        radius = st.slider("Raio do Filtro na Frequência", 5, 100, 30)
-    if st.button("Filtro na Frequência"):
-        filtro_tipo = "low" if filtro_tipo_pt == "Passa-baixa" else "high"
-        freqf = filtros.apply_frequency_filter(img, filter_type=filtro_tipo, radius=radius)
-        col_freqf1, col_freqf2 = st.columns(2)
-        with col_freqf1:
-            # Normalização para evitar erro do Streamlit
-            import numpy as np
-            if freqf.dtype == np.float32 or freqf.dtype == np.float64:
-                freqf_show = (freqf - freqf.min()) / (freqf.max() - freqf.min() + 1e-8)
-            elif freqf.dtype != np.uint8:
-                freqf_show = freqf.astype(np.float32)
-                freqf_show = (freqf_show - freqf_show.min()) / (freqf_show.max() - freqf_show.min() + 1e-8)
-            else:
-                freqf_show = freqf
-            st.image(freqf_show, caption="Filtro no Domínio da Frequência", use_container_width=True, channels="GRAY")
-            import cv2
-            success, buffer = cv2.imencode('.png', freqf.astype('uint8'))
-            if success:
-                st.download_button(label='Salvar imagem', data=buffer.tobytes(), file_name=f'filtro_frequencia_{filtro_tipo}.png', mime='image/png')
+    # =====================
+    # Convolução no Domínio da Frequência
+    # =====================
+    st.header("Convolução no Domínio da Frequência")
+    st.markdown("Compare a imagem original, a filtrada por média espacial, e as filtradas por passa-baixa e passa-alta no domínio da frequência.")
+
+    radius = st.slider("Raio dos Filtros na Frequência", 5, 100, 30)
+
+    # Imagem original
+    img_original = img
+
+    # Média espacial
+    img_media = filtros.apply_mean_filter(img, ksize=3)
+
+    # Passa-baixa na frequência
+    img_passabaixa = filtros.apply_frequency_filter(img, filter_type="low", radius=radius)
+    if img_passabaixa.dtype != np.uint8:
+        img_passabaixa = np.clip(img_passabaixa, 0, 255).astype(np.uint8)
+
+    # Passa-alta na frequência
+    img_passaalta = filtros.apply_frequency_filter(img, filter_type="high", radius=radius)
+    if img_passaalta.dtype != np.uint8:
+        img_passaalta = np.clip(img_passaalta, 0, 255).astype(np.uint8)
+
+    colA, colB, colC, colD = st.columns(4)
+    with colA:
+        st.image(img_original, caption="Original", use_container_width=True, channels="GRAY")
+    with colB:
+        st.image(img_media, caption="Média Espacial (3x3)", use_container_width=True, channels="GRAY")
+    with colC:
+        st.image(img_passabaixa, caption=f"Passa-baixa (Freq, r={radius})", use_container_width=True, channels="GRAY")
+    with colD:
+        st.image(img_passaalta, caption=f"Passa-alta (Freq, r={radius})", use_container_width=True, channels="GRAY")
 
     st.header("Segmentação")
     if st.button("Otsu Threshold"):
@@ -313,6 +323,7 @@ if uploaded_file is not None:
             st.pyplot(fig_otsu)
 
     st.header("Morfologia Matemática")
+
     min_dim_morf = min(img.shape[0], img.shape[1])
     st.markdown("<b>Escolha o tamanho da máscara morfológica (valor inteiro ímpar, ex: 3 para 3x3):</b>", unsafe_allow_html=True)
     ksize_morf = st.number_input("Tamanho da máscara (kernel) - Morfologia", min_value=1, max_value=min(99, min_dim_morf), value=3, step=2, format="%d")
@@ -349,3 +360,60 @@ if uploaded_file is not None:
             ax_dilate.hist(dilate.ravel(), bins=256, range=[0,256])
             ax_dilate.set_title("Histograma Dilatação")
             st.pyplot(fig_dilate)
+
+    # =====================
+    # DESCRITORES
+    # =====================
+    st.header("Descritores de Imagem")
+    from descritores import shape_descriptor, color_descriptor, texture_descriptor
+
+    # Forma
+    st.markdown("## Descritor de Forma (Momentos de Hu)")
+    hu, thresh = shape_descriptor(img, return_thresh=True)
+    st.image(thresh, caption="Imagem Binarizada para Momentos de Hu", use_container_width=False, width=220, channels="GRAY")
+    st.markdown("""
+    <span style='font-size:1em'>Invariantes a rotação, escala e translação.</span>
+    """, unsafe_allow_html=True)
+
+    # Cor
+    st.markdown("## Descritor de Cor (Histograma Normalizado)")
+    color_hist = color_descriptor(img)
+    fig_color, ax_color = plt.subplots(figsize=(4,2.2))
+    colors = ['blue']*32 + ['green']*32 + ['red']*32
+    ax_color.bar(np.arange(96), color_hist, color=colors, alpha=0.7)
+    ax_color.set_title("Histograma de Cor (cada barra = cor do canal)")
+    ax_color.set_xlabel("Bin")
+    ax_color.set_ylabel("Frequência Normalizada")
+    from matplotlib.patches import Patch
+    legend_elements = [Patch(facecolor='red', label='R'), Patch(facecolor='green', label='G'), Patch(facecolor='blue', label='B')]
+    ax_color.legend(handles=legend_elements)
+    st.pyplot(fig_color)
+    st.markdown("""
+    <span style='font-size:1em'>Vetor de 96 valores (32 bins para cada canal B, G, R).</span>
+    <br><br>
+    <b>Como interpretar este histograma de cor:</b><br>
+    - Cada barra representa a frequência de pixels em uma faixa de intensidade para cada canal (azul, verde, vermelho).<br>
+    - Distribuição concentrada em poucos bins indica pouca variação de cor.<br>
+    - Distribuição espalhada indica riqueza de cores ou imagem colorida.<br>
+    - Picos em um canal mostram predominância daquela cor.<br>
+    - Imagens em tons de cinza terão os três canais similares.<br>
+    """, unsafe_allow_html=True)
+
+    # Textura
+    st.markdown("## Descritor de Textura (LBP)")
+    texture_hist = texture_descriptor(img)
+    fig_lbp, ax_lbp = plt.subplots(figsize=(4,2.2))
+    ax_lbp.bar(np.arange(10), texture_hist, color='gray', alpha=0.7)
+    ax_lbp.set_title("Histograma LBP (Textura)")
+    ax_lbp.set_xlabel("Padrão LBP (bin)")
+    ax_lbp.set_ylabel("Frequência Normalizada")
+    st.pyplot(fig_lbp)
+    st.markdown("""
+    <span style='font-size:1em'>Histograma de padrões locais de textura (10 bins, método 'uniform').</span>
+    <br><br>
+    <b>Como interpretar este histograma de textura (LBP):</b><br>
+    - Cada barra representa a frequência de um padrão local de textura.<br>
+    - Pico no último bin (bin 8 ou 9) geralmente indica regiões lisas (pouca textura).<br>
+    - Vários bins ocupados indicam riqueza de detalhes/textura.<br>
+    - Distribuição espalhada pode indicar ruído ou diversidade de texturas.<br>
+    """, unsafe_allow_html=True)
