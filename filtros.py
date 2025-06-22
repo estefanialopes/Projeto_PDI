@@ -1,14 +1,12 @@
 import cv2
 import numpy as np
 
-# Transformações de Intensidade
 def apply_contrast_stretch(image):
     return cv2.normalize(image, None, 0, 255, cv2.NORM_MINMAX)
 
 def apply_histogram_equalization(image):
     return cv2.equalizeHist(image)
 
-# Filtros Passa-Baixa
 def apply_mean_filter(image, ksize=5):
     return cv2.blur(image, (ksize, ksize))
 
@@ -24,7 +22,6 @@ def apply_max_filter(image, ksize=5):
 def apply_min_filter(image, ksize=5):
     return cv2.erode(image, np.ones((ksize, ksize), np.uint8))
 
-# Filtros Passa-Alta
 def apply_laplacian_filter(image):
     lap = cv2.Laplacian(image, cv2.CV_64F)
     return cv2.convertScaleAbs(lap)
@@ -47,7 +44,6 @@ def apply_sobel_filter(image):
     sobel = cv2.Sobel(image, cv2.CV_64F, 1, 1, ksize=3)
     return cv2.convertScaleAbs(sobel)
 
-# Domínio da Frequência
 def apply_fourier_spectrum(image):
     f = np.fft.fft2(image)
     fshift = np.fft.fftshift(f)
@@ -71,12 +67,11 @@ def apply_frequency_filter(image, filter_type='low', radius=30):
     img_back = np.fft.ifft2(f_ishift)
     return np.abs(img_back)
 
-# Segmentação
+
 def apply_otsu_threshold(image):
     _, otsu = cv2.threshold(image, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
     return otsu
 
-# Morfologia Matemática
 def apply_erosion(image, ksize=3, iterations=1):
     kernel = np.ones((ksize, ksize), np.uint8)
     return cv2.erode(image, kernel, iterations=iterations)
