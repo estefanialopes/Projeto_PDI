@@ -9,7 +9,6 @@ from descritores import color_descriptor, texture_descriptor, shape_descriptor
 
 st.title("Processamento de Imagens com OpenCV e Matplotlib")
 
-# CSS para todos os botões (ação e download): fundo branco, texto preto, borda azul, letras azuis ao passar mouse
 st.markdown('''
     <style>
     .stButton > button, .stDownloadButton > button {
@@ -63,7 +62,6 @@ if uploaded_file is not None:
             st.pyplot(fig)
 
     st.header("Transformações de Intensidade")
-    # Normalização (Alargamento de Contraste)
     if st.button("Alargamento de Contraste (normalize)"):
         stretch = filtros.apply_contrast_stretch(img)
         col_norm1, col_norm2 = st.columns(2)
@@ -80,7 +78,6 @@ if uploaded_file is not None:
             ax2.set_title("Histograma da Imagem Alargada")
             st.pyplot(fig2)
 
-    # Equalização de Histograma
     if st.button("Equalização de Histograma"):
         eq = filtros.apply_histogram_equalization(img)
         col_eq1, col_eq2 = st.columns(2)
@@ -255,9 +252,6 @@ if uploaded_file is not None:
             ax_sobel.set_title("Histograma Sobel")
             st.pyplot(fig_sobel)
 
-    # =====================
-    # Espectro de Fourier
-    # =====================
     st.header("Espectro de Fourier")
     st.markdown("Visualize o conteúdo em frequência da imagem através do espectro de magnitude da Transformada de Fourier.")
     if st.button("Mostrar Espectro de Fourier"):
@@ -268,26 +262,22 @@ if uploaded_file is not None:
         ax.axis('off')
         st.pyplot(fig)
 
-    # =====================
-    # Convolução no Domínio da Frequência
-    # =====================
+
     st.header("Convolução no Domínio da Frequência")
     st.markdown("Compare a imagem original, a filtrada por média espacial, e as filtradas por passa-baixa e passa-alta no domínio da frequência.")
 
     radius = st.slider("Raio dos Filtros na Frequência", 5, 100, 30)
 
-    # Imagem original
+
     img_original = img
 
-    # Média espacial
+
     img_media = filtros.apply_mean_filter(img, ksize=3)
 
-    # Passa-baixa na frequência
     img_passabaixa = filtros.apply_frequency_filter(img, filter_type="low", radius=radius)
     if img_passabaixa.dtype != np.uint8:
         img_passabaixa = np.clip(img_passabaixa, 0, 255).astype(np.uint8)
 
-    # Passa-alta na frequência
     img_passaalta = filtros.apply_frequency_filter(img, filter_type="high", radius=radius)
     if img_passaalta.dtype != np.uint8:
         img_passaalta = np.clip(img_passaalta, 0, 255).astype(np.uint8)
@@ -302,9 +292,7 @@ if uploaded_file is not None:
     with colD:
         st.image(img_passaalta, caption=f"Passa-alta (Freq, r={radius})", use_container_width=True, channels="GRAY")
 
-    # Montagem horizontal para download
     imgs_concat = [img_original, img_media, img_passabaixa, img_passaalta]
-    # Garante que todas têm 2D e mesmo shape (redimensiona para menor comum se necessário)
     min_height = min(im.shape[0] for im in imgs_concat)
     min_width = min(im.shape[1] for im in imgs_concat)
     imgs_resized = [cv2.resize(im, (min_width, min_height)) for im in imgs_concat]
@@ -375,13 +363,11 @@ if uploaded_file is not None:
             ax_dilate.set_title("Histograma Dilatação")
             st.pyplot(fig_dilate)
 
-    # =====================
-    # DESCRITORES
-    # =====================
+
     st.header("Descritores de Imagem")
     from descritores import shape_descriptor, color_descriptor, texture_descriptor
 
-    # Forma
+
     st.markdown("## Descritor de Forma (Momentos de Hu)")
     hu, thresh = shape_descriptor(img, return_thresh=True)
     st.image(thresh, caption="Imagem Binarizada para Momentos de Hu", use_container_width=False, width=220, channels="GRAY")
@@ -389,7 +375,7 @@ if uploaded_file is not None:
     <span style='font-size:1em'>Invariantes a rotação, escala e translação.</span>
     """, unsafe_allow_html=True)
 
-    # Cor
+
     st.markdown("## Descritor de Cor (Histograma Normalizado)")
     color_hist = color_descriptor(img)
     fig_color, ax_color = plt.subplots(figsize=(4,2.2))
@@ -413,7 +399,7 @@ if uploaded_file is not None:
     - Imagens em tons de cinza terão os três canais similares.<br>
     """, unsafe_allow_html=True)
 
-    # Textura
+
     st.markdown("## Descritor de Textura (LBP)")
     texture_hist = texture_descriptor(img)
     fig_lbp, ax_lbp = plt.subplots(figsize=(4,2.2))
