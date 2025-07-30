@@ -11,6 +11,33 @@ Este projeto é um aplicativo web para processamento de imagens em Python, utili
 - Morfologia matemática: erosão e dilatação
 - Download das imagens processadas
 
+## Exemplos de Resultados
+
+### 1. Visualização Inicial
+
+![Visualização Inicial](imagens/vizualizacaoInicial.jpeg)
+
+**Descrição:**  
+Esta imagem mostra a interface do projeto logo após o upload de uma imagem. À esquerda, está a imagem original carregada pelo usuário. À direita, é possível visualizar o histograma da imagem, que representa a distribuição dos níveis de intensidade dos pixels. Essa etapa permite analisar rapidamente as características básicas da imagem antes de aplicar qualquer processamento.
+
+---
+
+### 2. Filtro Passa-Baixa Mínimo
+
+![Filtro Passa-Baixa Mínimo](imagens/FiltrosPBMin.jpeg)
+
+**Descrição:**  
+Aqui é exibido o resultado da aplicação do filtro passa-baixa mínimo (Min Filter). Esse filtro substitui cada pixel pelo menor valor encontrado em sua vizinhança definida pelo tamanho do kernel. O efeito visual é o escurecimento das áreas claras e a remoção de pequenos detalhes brilhantes, sendo útil para destacar regiões escuras e reduzir ruídos pontuais.
+
+---
+
+### 3. Convolução No Domínio da Frequência
+
+![Convolução No Domínio da Frequência](imagens/conv.png)
+
+**Descrição:**  
+Esta imagem apresenta o resultado da aplicação de uma convolução sobre a imagem original utilizando um kernel específico (por exemplo, média, gaussiano ou outro). A convolução é uma operação fundamental no processamento de imagens, pois permite suavizar, realçar bordas ou aplicar outros efeitos conforme o kernel escolhido. Na imagem, é possível observar como a filtragem altera a aparência da imagem original, destacando ou suavizando detalhes.
+
 ## Instalação
 
 1. **Clone este repositório:**
@@ -49,5 +76,7 @@ Acesse o endereço mostrado no terminal (geralmente http://localhost:8501).
 
 ## Requisitos
 - Python 3.8+
+
+
 
 
