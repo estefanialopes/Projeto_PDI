@@ -15,7 +15,7 @@ Este projeto é um aplicativo web para processamento de imagens em Python, utili
 
 ### 1. Visualização Inicial
 
-![Visualização Inicial](imagens/vizualizacaoInicial.jpeg)
+![Visualização Inicial](imagens/vizualizacao.jpeg)
 
 **Descrição:**  
 Esta imagem mostra a interface do projeto logo após o upload de uma imagem. À esquerda, está a imagem original carregada pelo usuário. À direita, é possível visualizar o histograma da imagem, que representa a distribuição dos níveis de intensidade dos pixels. Essa etapa permite analisar rapidamente as características básicas da imagem antes de aplicar qualquer processamento.
